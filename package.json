@@ -1,0 +1,26 @@
+{
+  "name": "sumit-behera-portfolio",
+  "version": "2.1.0",
+  "description": "Full-Stack Software Developer Portfolio for Sumit Behera (Associate Developer at Qubnix Technology & BCA Graduate from Utkal University)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -l 3000 .",
+    "dev": "npx serve -l 3000 .",
+    "preview": "npx serve -l 3000 ."
+  },
+  "keywords": [
+    "sumit-behera",
+    "sumit-behera-developer",
+    "full-stack-developer",
+    "associate-developer",
+    "qubnix-technology",
+    "utkal-university",
+    "react",
+    "nextjs",
+    "nodejs",
+    "mongodb",
+    "shopify"
+  ],
+  "author": "Sumit Behera <beherasumit772@gmail.com>",
+  "license": "MIT"
+}

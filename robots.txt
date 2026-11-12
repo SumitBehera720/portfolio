@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sumitbehera720.github.io/sitemap.xml
+
