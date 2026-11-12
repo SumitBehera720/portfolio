@@ -2,17 +2,17 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": null,
   "outputDirectory": ".",
-  "headers": [
+  "redirects": [
     {
-      "source": "/(.*)",
-      "headers": [
+      "source": "/:path*",
+      "has": [
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate, s-maxage=0"
+          "type": "host",
+          "value": "sumitbehera-brown.vercel.app"
         }
-      ]
+      ],
+      "destination": "https://sumitbehera.vercel.app/:path*",
+      "permanent": true
     }
   ]
 }
-
-
