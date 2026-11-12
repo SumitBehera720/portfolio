@@ -4,7 +4,6 @@
   "description": "Full-Stack Software Developer Portfolio for Sumit Behera (Associate Developer at Qubnix Technology & BCA Graduate from Utkal University)",
   "main": "index.html",
   "scripts": {
-    "build": "echo 'Static build ready'",
     "start": "npx serve -l 3000 .",
     "dev": "npx serve -l 3000 .",
     "preview": "npx serve -l 3000 ."
