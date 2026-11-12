@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sumitbehera-brown.vercel.app/sitemap.xml
+Sitemap: https://sumitbehera.vercel.app/sitemap.xml
 
