@@ -19,10 +19,19 @@
   <span class="term-green">stats</span>       - Engineering track record & impact metrics
   <span class="term-green">experience</span>  - Career timeline & enterprise CRM work
   <span class="term-green">contact</span>     - Direct contact info, socials & email
+  <span class="term-green">intro</span>       - Replay the cinematic animated boot sequence
   <span class="term-green">sudo hire</span>   - Unlock instant collaboration / hiring flow
   <span class="term-green">theme</span>       - Switch terminal palette (<span class="term-purple">cyber</span> | <span class="term-purple">matrix</span> | <span class="term-purple">amber</span>)
   <span class="term-green">clear</span>       - Clear current console output
 `;
+    },
+
+    intro: () => {
+      if (typeof window.replayIntro === 'function') {
+        window.replayIntro();
+        return '<span class="term-cyan">Replaying animated cinematic intro sequence...</span>';
+      }
+      return 'Intro function not available.';
     },
 
     about: () => {
@@ -259,7 +268,7 @@ Ready for full-time engineering roles, freelance builds, and contract architectu
   // Initial welcome message
   setTimeout(() => {
     appendOutput(`
-<span class="term-cyan font-bold">Sumit-CLI v2.4 [Initialized]</span>
+<span class="term-cyan font-bold">Sumit-CLI v3.0 [OLED Native Initialized]</span>
 Type <span class="term-green font-bold cursor-pointer" onclick="window.runTerminalCommand('help')">'help'</span> to explore interactive commands or <span class="term-yellow font-bold cursor-pointer" onclick="window.runTerminalCommand('sudo hire')">'sudo hire'</span> to start collaborating.
 `);
   }, 400);
