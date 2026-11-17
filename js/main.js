@@ -535,25 +535,27 @@ function initSkillsSection() {
 
     skillsList.forEach((skill) => {
       const card = document.createElement('div');
-      card.className = 'spotlight-card p-5 group bg-white';
+      card.className = 'spotlight-card p-3 sm:p-5 group bg-white flex flex-col justify-between';
       card.innerHTML = `
         <div class="spotlight-surface"></div>
-        <div class="relative z-10">
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold font-mono text-sm group-hover:scale-105 transition-transform">
-                ${skill.name.slice(0, 2).toUpperCase()}
+        <div class="relative z-10 flex flex-col h-full justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2 sm:mb-3 gap-1">
+              <div class="flex items-center gap-1.5 sm:gap-3 min-w-0">
+                <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold font-mono text-[10px] sm:text-sm group-hover:scale-105 transition-transform shrink-0">
+                  ${skill.name.slice(0, 2).toUpperCase()}
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-bold text-slate-900 text-xs sm:text-sm tracking-tight font-display truncate">${skill.name}</h4>
+                  <span class="text-[9px] sm:text-xs text-slate-500 font-mono font-medium block truncate">${skill.tag}</span>
+                </div>
               </div>
-              <div>
-                <h4 class="font-bold text-slate-900 text-sm tracking-tight font-display">${skill.name}</h4>
-                <span class="text-xs text-slate-600 font-mono font-medium">${skill.tag}</span>
-              </div>
+              <span class="text-[9px] sm:text-xs font-mono font-bold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full border border-indigo-100 shrink-0">${skill.level}%</span>
             </div>
-            <span class="text-xs font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">${skill.level}%</span>
+            <p class="text-[10px] sm:text-xs text-slate-600 mb-2.5 sm:mb-4 leading-normal sm:leading-relaxed line-clamp-2">${skill.desc}</p>
           </div>
-          <p class="text-xs text-slate-700 mb-4 leading-relaxed line-clamp-2">${skill.desc}</p>
-          <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-            <div class="bg-gradient-to-r from-indigo-500 via-sky-500 to-violet-500 h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: ${skill.level}%"></div>
+          <div class="w-full bg-slate-100 rounded-full h-1 sm:h-1.5 overflow-hidden mt-auto">
+            <div class="bg-gradient-to-r from-indigo-500 via-sky-500 to-violet-500 h-1 sm:h-1.5 rounded-full transition-all duration-1000 ease-out" style="width: ${skill.level}%"></div>
           </div>
         </div>
       `;
@@ -596,18 +598,18 @@ function initProjectsSection() {
       card.className = 'project-window flex flex-col justify-between group bg-white';
       
       const tagsHtml = pr.techStack
-        .map((t) => `<span class="px-2.5 py-1 text-[11px] rounded-lg bg-slate-100 text-slate-800 border border-slate-200 font-mono font-medium">${t}</span>`)
+        .map((t) => `<span class="px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[9px] sm:text-[11px] rounded-md sm:rounded-lg bg-slate-100 text-slate-800 border border-slate-200 font-mono font-medium">${t}</span>`)
         .join(' ');
 
       const liveBtn = pr.liveUrl
-        ? `<a href="${pr.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs px-3.5 py-1.5 rounded-xl font-semibold flex items-center gap-1.5 font-display">
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Live Demo
+        ? `<a href="${pr.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary text-[10px] sm:text-xs px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl font-semibold flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
+            <i data-lucide="external-link" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> <span>Live</span>
           </a>`
         : '';
 
       const gitBtn = pr.githubUrl
-        ? `<a href="${pr.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs px-3.5 py-1.5 rounded-xl font-medium flex items-center gap-1.5 font-display">
-            <i data-lucide="github" class="w-3.5 h-3.5"></i> Code
+        ? `<a href="${pr.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary text-[10px] sm:text-xs px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl font-medium flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
+            <i data-lucide="github" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> <span>Code</span>
           </a>`
         : '';
 
@@ -615,45 +617,45 @@ function initProjectsSection() {
         <div class="relative z-10 flex flex-col h-full justify-between">
           <div>
             <!-- Simulated Browser Header Bar -->
-            <div class="browser-header">
-              <div class="browser-dots">
-                <span class="browser-dot bg-rose-500"></span>
-                <span class="browser-dot bg-amber-500"></span>
-                <span class="browser-dot bg-emerald-500"></span>
+            <div class="browser-header px-2 sm:px-4 py-1.5 sm:py-2.5">
+              <div class="browser-dots gap-1">
+                <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-500"></span>
+                <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500"></span>
+                <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-500"></span>
               </div>
-              <div class="browser-address-bar">
-                <i data-lucide="lock" class="w-2.5 h-2.5 text-emerald-600"></i>
-                <span>${pr.liveUrl ? pr.liveUrl.replace('https://', '') : 'github.com/SumitBehera720'}</span>
+              <div class="browser-address-bar max-w-[85px] sm:max-w-[200px] text-[8px] sm:text-[10px] py-0.5 px-1 sm:px-2">
+                <i data-lucide="lock" class="w-2 h-2 text-emerald-600 shrink-0"></i>
+                <span class="truncate">${pr.liveUrl ? pr.liveUrl.replace('https://', '') : 'github.com/SumitBehera720'}</span>
               </div>
-              <span class="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">${pr.badge}</span>
+              <span class="text-[8px] sm:text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider hidden sm:inline">${pr.badge}</span>
             </div>
 
             <!-- Content Area -->
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-mono text-indigo-600 font-bold">${pr.category}</span>
-                <span class="text-[11px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 font-bold">● Active</span>
+            <div class="p-3 sm:p-6">
+              <div class="flex items-center justify-between mb-1.5 sm:mb-2 gap-1">
+                <span class="text-[9px] sm:text-xs font-mono text-indigo-600 font-bold truncate max-w-[90px] sm:max-w-none">${pr.category}</span>
+                <span class="text-[9px] sm:text-[11px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 font-bold shrink-0">● Active</span>
               </div>
-              <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors font-display mb-2">
+              <h3 class="text-xs sm:text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors font-display mb-1 sm:mb-2 line-clamp-2">
                 ${pr.title}
               </h3>
-              <p class="text-xs text-slate-700 mb-5 leading-relaxed font-normal">
+              <p class="text-[10px] sm:text-xs text-slate-700 mb-2 sm:mb-5 leading-normal sm:leading-relaxed font-normal line-clamp-2 sm:line-clamp-none">
                 ${pr.description}
               </p>
-              <div class="flex flex-wrap gap-1.5 mb-2">
+              <div class="flex flex-wrap gap-1 sm:gap-1.5 mb-2">
                 ${tagsHtml}
               </div>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="p-6 pt-3 border-t border-slate-100 mt-auto flex items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
+          <div class="p-2.5 sm:p-6 pt-2 sm:pt-3 border-t border-slate-100 mt-auto flex items-center justify-between gap-1.5 sm:gap-3">
+            <div class="flex items-center gap-1.5 sm:gap-2 w-full">
               ${liveBtn}
               ${gitBtn}
             </div>
-            <button class="view-details-btn text-xs font-mono text-slate-600 hover:text-indigo-600 flex items-center gap-1 transition-colors font-bold" data-id="${pr.id}">
-              Inspect <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            <button class="view-details-btn text-[10px] sm:text-xs font-mono text-slate-600 hover:text-indigo-600 items-center gap-1 transition-colors font-bold hidden sm:flex shrink-0" data-id="${pr.id}">
+              Inspect <i data-lucide="arrow-right" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
             </button>
           </div>
         </div>

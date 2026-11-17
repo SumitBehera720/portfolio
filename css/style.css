@@ -951,3 +951,131 @@ h1, h2, h3, h4, .font-display {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE 2-COLUMN OPTIMIZATIONS (< 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Global Touch & Overflow Containment */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Section Padding Optimization */
+  section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  /* Pillar Cards (About Core 2x2 Grid) */
+  .pillar-card {
+    padding: 0.85rem 0.75rem !important;
+    border-radius: 1rem !important;
+  }
+  .pillar-card h4 {
+    font-size: 0.875rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .pillar-card p {
+    font-size: 0.68rem !important;
+    line-height: 1.4 !important;
+  }
+  .pillar-card .w-10 {
+    width: 2rem !important;
+    height: 2rem !important;
+    margin-bottom: 0.5rem !important;
+    border-radius: 0.65rem !important;
+  }
+  .pillar-card .w-10 i,
+  .pillar-card .w-10 svg {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+  }
+
+  /* Quick Facts (At a Glance 2x2 Grid) */
+  .quick-fact-item {
+    padding: 0.55rem 0.65rem !important;
+    border-radius: 0.85rem !important;
+    gap: 0.45rem !important;
+  }
+  .quick-fact-item i,
+  .quick-fact-item svg {
+    width: 0.9rem !important;
+    height: 0.9rem !important;
+  }
+
+  /* CRM Architecture Flow Nodes (2x2 + 1 Grid) */
+  .crm-flow-node {
+    padding: 0.65rem 0.75rem !important;
+    border-radius: 0.85rem !important;
+  }
+
+  /* Hero Stats (Delivered / Impact Metrics 2x2 Grid) */
+  #hero-stats .spotlight-card {
+    padding: 0.85rem 0.85rem !important;
+    border-radius: 1rem !important;
+  }
+  #hero-stats .counter-val {
+    font-size: 1.65rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Projects Window Cards */
+  .project-window {
+    border-radius: 1rem !important;
+  }
+  .browser-header {
+    padding: 0.45rem 0.65rem !important;
+  }
+  .browser-dot {
+    width: 0.45rem !important;
+    height: 0.45rem !important;
+  }
+  .browser-address-bar {
+    max-width: 110px !important;
+    font-size: 0.6rem !important;
+    padding: 0.1rem 0.45rem !important;
+  }
+
+  /* Skills Cards */
+  #skills-grid .spotlight-card {
+    padding: 0.75rem 0.65rem !important;
+    border-radius: 0.875rem !important;
+  }
+
+  /* Floating Dock Responsive Sizing */
+  .floating-dock {
+    bottom: 0.75rem !important;
+    padding: 0.35rem 0.55rem !important;
+    gap: 0.2rem !important;
+    max-width: calc(100vw - 1.25rem) !important;
+  }
+  .dock-item {
+    width: 2.15rem !important;
+    height: 2.15rem !important;
+  }
+  .dock-item svg,
+  .dock-item i {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+  }
+
+  /* Segmented Controls / Filter Tabs */
+  .segmented-control {
+    gap: 0.2rem !important;
+    padding: 0.2rem !important;
+  }
+  .segmented-btn {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Terminal Window */
+  .terminal-scroll-area {
+    height: 260px !important;
+    padding: 0.85rem !important;
+    font-size: 0.75rem !important;
+  }
+}
