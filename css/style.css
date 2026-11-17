@@ -11,12 +11,12 @@
   /* Light Theme (Quartz Glass) */
   --bg-page: #f8fafc;
   --bg-surface: rgba(255, 255, 255, 0.7);
-  --bg-surface-elevated: rgba(255, 255, 255, 0.85);
+  --bg-surface-elevated: rgba(255, 255, 255, 0.88);
   --bg-glass: rgba(255, 255, 255, 0.65);
   --bg-glass-hover: rgba(255, 255, 255, 0.85);
   --bg-glass-input: rgba(255, 255, 255, 0.8);
 
-  --border-glass: rgba(255, 255, 255, 0.6);
+  --border-glass: rgba(255, 255, 255, 0.65);
   --border-glass-subtle: rgba(226, 232, 240, 0.8);
   --border-focus: #4f46e5;
   --border-glow: rgba(99, 102, 241, 0.35);
@@ -48,7 +48,7 @@ html.dark {
   /* Dark Theme (OLED Obsidian Liquid Glass) */
   --bg-page: #030712;
   --bg-surface: rgba(15, 23, 42, 0.55);
-  --bg-surface-elevated: rgba(15, 23, 42, 0.8);
+  --bg-surface-elevated: rgba(15, 23, 42, 0.88);
   --bg-glass: rgba(15, 23, 42, 0.5);
   --bg-glass-hover: rgba(30, 41, 59, 0.65);
   --bg-glass-input: rgba(3, 7, 18, 0.7);
@@ -114,7 +114,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* --------------------------------------------------------------------------
-   MINIMALIST CINEMATIC NAME-TYPING & ZOOM INTRO
+   MINIMALIST CINEMATIC NAME-TYPING & SMOOTH ZOOM INTRO
    -------------------------------------------------------------------------- */
 .intro-overlay {
   position: fixed;
@@ -126,17 +126,17 @@ h1, h2, h3, h4, .font-display {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.75s ease,
-              filter 0.75s ease;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, filter;
   cursor: pointer;
 }
 
 .intro-overlay.zoom-entry {
-  transform: scale(2.2);
+  transform: scale(2.4);
   opacity: 0;
-  filter: blur(14px);
+  filter: blur(16px);
   pointer-events: none;
 }
 
@@ -144,18 +144,8 @@ h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
   font-weight: 900;
   letter-spacing: -0.04em;
-  text-shadow: 0 0 35px rgba(255, 255, 255, 0.4);
-}
-
-.intro-hint {
-  position: absolute;
-  bottom: 2.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  animation: pulse-hud-dot 2s infinite ease-in-out;
+  text-shadow: 0 0 40px rgba(56, 189, 248, 0.5), 0 0 80px rgba(99, 102, 241, 0.3);
+  transition: text-shadow 0.3s ease;
 }
 
 /* --------------------------------------------------------------------------
@@ -195,7 +185,6 @@ h1, h2, h3, h4, .font-display {
   border-color: var(--border-glow);
 }
 
-/* Mouse-tracking Spotlight Surface inside Liquid Glass */
 .spotlight-surface {
   position: absolute;
   inset: 0;
@@ -296,7 +285,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* --------------------------------------------------------------------------
-   NAVIGATION & THEME TOGGLE
+   NAVIGATION & MOBILE SLIDE-OVER DRAWER
    -------------------------------------------------------------------------- */
 .nav-pill {
   background: var(--bg-surface-elevated);
@@ -324,6 +313,22 @@ h1, h2, h3, h4, .font-display {
   transform: scale(1.08);
   border-color: var(--border-focus);
   background: var(--bg-glass-hover);
+}
+
+/* Mobile Slide-Over Drawer from Right */
+#mobile-drawer {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#mobile-drawer.open {
+  transform: translateX(0) !important;
+}
+
+#mobile-drawer-backdrop {
+  transition: opacity 0.3s ease;
+}
+#mobile-drawer-backdrop.open {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -381,7 +386,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* --------------------------------------------------------------------------
-   BUTTONS & CONTROLS
+   BUTTONS & CONTROLS (Optimized, No Dead Space)
    -------------------------------------------------------------------------- */
 .btn-primary {
   display: inline-flex;
@@ -391,21 +396,22 @@ h1, h2, h3, h4, .font-display {
   background: linear-gradient(135deg, #4f46e5, #6366f1);
   color: #ffffff;
   font-family: var(--font-sans);
-  font-weight: 700;
-  border-radius: 0.875rem;
-  padding: 0.75rem 1.35rem;
-  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.8125rem;
+  line-height: 1.25;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 8px 24px -4px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 6px 20px -3px rgba(79, 70, 229, 0.35);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #4338ca, #4f46e5);
   transform: translateY(-1.5px);
-  box-shadow: 0 12px 28px -4px rgba(79, 70, 229, 0.55);
+  box-shadow: 0 10px 25px -4px rgba(79, 70, 229, 0.5);
 }
 
 .btn-secondary {
@@ -417,9 +423,10 @@ h1, h2, h3, h4, .font-display {
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 600;
-  border-radius: 0.875rem;
-  padding: 0.75rem 1.35rem;
-  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.8125rem;
+  line-height: 1.25;
   border: 1px solid var(--border-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -497,41 +504,6 @@ h1, h2, h3, h4, .font-display {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* --------------------------------------------------------------------------
-   CRM ARCHITECTURE FLOW
-   -------------------------------------------------------------------------- */
-.crm-flow-node {
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid var(--border-glass);
-  border-radius: 1rem;
-  padding: 1rem 1.25rem;
-  cursor: pointer;
-  transition: all 0.22s ease;
-  box-shadow: var(--glass-shadow);
-  position: relative;
-}
-
-.crm-flow-node:hover, .crm-flow-node.active {
-  border-color: var(--accent-primary);
-  background: var(--bg-glass-hover);
-  box-shadow: 0 8px 24px -2px rgba(99, 102, 241, 0.25);
-}
-
-.crm-flow-node.active::after {
-  content: '';
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-primary);
 }
 
 /* --------------------------------------------------------------------------
@@ -678,7 +650,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* --------------------------------------------------------------------------
-   SCROLL REVEALS & PROGRESS BAR
+   BIDIRECTIONAL SCROLL REVEALS & PROGRESS BAR
    -------------------------------------------------------------------------- */
 #scroll-progress-bar {
   position: fixed;
@@ -695,7 +667,8 @@ h1, h2, h3, h4, .font-display {
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -704,10 +677,10 @@ h1, h2, h3, h4, .font-display {
   transform: translateY(0);
 }
 
-.delay-100 { transition-delay: 100ms; }
-.delay-150 { transition-delay: 150ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-250 { transition-delay: 250ms; }
+.delay-100 { transition-delay: 80ms; }
+.delay-150 { transition-delay: 130ms; }
+.delay-200 { transition-delay: 180ms; }
+.delay-250 { transition-delay: 230ms; }
 
 /* --------------------------------------------------------------------------
    CURSOR & MARQUEE
@@ -785,16 +758,19 @@ h1, h2, h3, h4, .font-display {
     max-width: 100vw;
   }
 
+  /* Safe Section Padding: Prevents Fixed Navbar from Overlapping Content */
   section {
-    padding-top: 3.5rem !important;
+    padding-top: 4.5rem !important;
     padding-bottom: 3.5rem !important;
   }
 
+  #hero {
+    padding-top: 6.5rem !important;
+  }
+
+  /* Hide HUD on Mobile so it never overlaps navbar */
   #story-chapter-hud {
-    top: 4.75rem !important;
-    right: 0.75rem !important;
-    font-size: 0.6rem !important;
-    padding: 0.25rem 0.65rem !important;
+    display: none !important;
   }
 
   /* 2-Cards per row on Mobile */
@@ -815,11 +791,6 @@ h1, h2, h3, h4, .font-display {
     padding: 0.55rem 0.65rem !important;
     border-radius: 0.85rem !important;
     gap: 0.45rem !important;
-  }
-
-  .crm-flow-node {
-    padding: 0.65rem 0.75rem !important;
-    border-radius: 0.85rem !important;
   }
 
   #hero-stats .liquid-glass-card {

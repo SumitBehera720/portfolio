@@ -1,29 +1,31 @@
 // Main Application Controller for Sumit Behera's Portfolio
-// Liquid Glass Edition: Geist Typography, Name Typing Zoom Intro & Dark/Light Theme
+// Liquid Glass Edition: Smooth Zoom Intro, Right Slide-Over Mobile Menu & Bidirectional Scroll Reveals
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Theme Engine (Dark & Light)
   initThemeEngine();
 
-  // 2. Initialize Icons
+  // 2. Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
   }
 
-  // 3. Initialize Cinematic Name Typing & Zoom Intro
+  // 3. Initialize Cinematic Name Typing & Smooth Zoom Intro
   initNameTypingIntro();
 
-  // 4. Initialize Storytelling HUD & Scroll Progress
+  // 4. Initialize Mobile Slide-Over Drawer
+  initMobileDrawer();
+
+  // 5. Initialize Storytelling HUD & Scroll Observers
   initStorytellingHUD();
   initScrollProgress();
   initScrollSpyAndDock();
-  initScrollReveal();
+  initBidirectionalScrollReveal();
 
-  // 5. Initialize Components & Liquid Glass Interactions
+  // 6. Initialize Components & Liquid Glass Interactions
   initCustomCursor();
   initStatsCounters();
   initSpotlightEffect();
-  initCrmArchitectureFlow();
   initSkillsSection();
   initProjectsSection();
   initTimelineSection();
@@ -62,7 +64,7 @@ function initThemeEngine() {
 }
 
 // ==========================================================================
-// 2. CINEMATIC INTRO: ONLY NAME TYPING & ZOOM ENTRY TO WEBSITE
+// 2. CINEMATIC INTRO: ONLY NAME TYPING & SMOOTH ZOOM ENTRY (NO EXTRA TEXT)
 // ==========================================================================
 function initNameTypingIntro() {
   const overlay = document.getElementById('intro-overlay');
@@ -86,7 +88,7 @@ function initNameTypingIntro() {
     setTimeout(() => {
       overlay.style.display = 'none';
       document.body.style.overflow = '';
-    }, 850);
+    }, 900);
   }
 
   // Click anywhere or press ESC to instantly enter
@@ -112,17 +114,17 @@ function initNameTypingIntro() {
     if (charIdx < targetName.length) {
       nameEl.textContent += targetName.charAt(charIdx);
       charIdx++;
-      setTimeout(typeLetters, 95);
+      setTimeout(typeLetters, 90);
     } else {
-      // Finished typing: short cinematic pause then zoom entry
+      // Finished typing: pause with specular glow then smooth zoom entry
       setTimeout(triggerZoomEntry, 380);
     }
   }
 
-  // Fast check: If visitor already saw the intro in the current session, smooth fast bypass
+  // Fast check: If visitor already saw the intro in the current session, fast smooth entry
   if (sessionStorage.getItem('sumit_intro_done') === 'true') {
     nameEl.textContent = targetName;
-    setTimeout(triggerZoomEntry, 180);
+    setTimeout(triggerZoomEntry, 150);
   } else {
     document.body.style.overflow = 'hidden';
     setTimeout(typeLetters, 150);
@@ -130,21 +132,62 @@ function initNameTypingIntro() {
 }
 
 // ==========================================================================
-// 3. SCROLL STORYTELLING HUD & ACTIVE CHAPTER OBSERVER
+// 3. MOBILE SLIDE-OVER DRAWER (TRANSITION FROM RIGHT)
+// ==========================================================================
+function initMobileDrawer() {
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  const closeBtn = document.getElementById('mobile-drawer-close');
+  const backdrop = document.getElementById('mobile-drawer-backdrop');
+  const drawer = document.getElementById('mobile-drawer');
+  const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+  if (!toggleBtn || !drawer || !backdrop) return;
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (window.SoundFX) window.SoundFX.playClick();
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  toggleBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      closeDrawer();
+    }
+  });
+}
+
+// ==========================================================================
+// 4. SCROLL STORYTELLING HUD (7 CHAPTERS)
 // ==========================================================================
 function initStorytellingHUD() {
   const hudText = document.getElementById('hud-chapter-text');
   if (!hudText) return;
 
   const chapters = [
-    { id: 'hero', label: 'CH 01 / 08 • IDENTITY' },
-    { id: 'about', label: 'CH 02 / 08 • PHILOSOPHY' },
-    { id: 'architecture', label: 'CH 03 / 08 • CRM BLUEPRINT' },
-    { id: 'projects', label: 'CH 04 / 08 • SHOWROOM' },
-    { id: 'skills', label: 'CH 05 / 08 • ARSENAL' },
-    { id: 'terminal', label: 'CH 06 / 08 • TERMINAL' },
-    { id: 'journey', label: 'CH 07 / 08 • MILESTONES' },
-    { id: 'contact', label: 'CH 08 / 08 • TRANSMISSION' }
+    { id: 'hero', label: 'CH 01 / 07 • IDENTITY' },
+    { id: 'about', label: 'CH 02 / 07 • PHILOSOPHY' },
+    { id: 'projects', label: 'CH 03 / 07 • SHOWROOM' },
+    { id: 'skills', label: 'CH 04 / 07 • ARSENAL' },
+    { id: 'terminal', label: 'CH 05 / 07 • TERMINAL' },
+    { id: 'journey', label: 'CH 06 / 07 • MILESTONES' },
+    { id: 'contact', label: 'CH 07 / 07 • TRANSMISSION' }
   ];
 
   const observer = new IntersectionObserver((entries) => {
@@ -168,7 +211,31 @@ function initStorytellingHUD() {
 }
 
 // ==========================================================================
-// 4. PRECISION CURSOR
+// 5. BIDIRECTIONAL SCROLL REVEALS (REVEALS ON BOTH UP & DOWN SCROLLING)
+// ==========================================================================
+function initBidirectionalScrollReveal() {
+  const reveals = document.querySelectorAll('.reveal-on-scroll');
+  if (!reveals.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      } else {
+        // When scrolled past or out of view, remove 'revealed' so scrolling back triggers it again!
+        entry.target.classList.remove('revealed');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  reveals.forEach((el) => observer.observe(el));
+}
+
+// ==========================================================================
+// 6. PRECISION CURSOR
 // ==========================================================================
 function initCustomCursor() {
   const dot = document.querySelector('.cursor-dot');
@@ -199,20 +266,20 @@ function initCustomCursor() {
   renderCursor();
 
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('a, button, input, textarea, .liquid-glass-card, .project-window, .crm-flow-node, .segmented-btn, .dock-item')) {
+    if (e.target.closest('a, button, input, textarea, .liquid-glass-card, .project-window, .segmented-btn, .dock-item')) {
       ring.classList.add('cursor-hover');
     }
   });
 
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('a, button, input, textarea, .liquid-glass-card, .project-window, .crm-flow-node, .segmented-btn, .dock-item')) {
+    if (e.target.closest('a, button, input, textarea, .liquid-glass-card, .project-window, .segmented-btn, .dock-item')) {
       ring.classList.remove('cursor-hover');
     }
   });
 }
 
 // ==========================================================================
-// 5. LIQUID GLASS SPOTLIGHT REFRACTION EFFECT
+// 7. LIQUID GLASS SPOTLIGHT REFRACTION EFFECT
 // ==========================================================================
 function initSpotlightEffect() {
   const cards = document.querySelectorAll('.liquid-glass-card, .project-window');
@@ -235,7 +302,7 @@ function initSpotlightEffect() {
 }
 
 // ==========================================================================
-// 6. STATS COUNTERS
+// 8. STATS COUNTERS
 // ==========================================================================
 function initStatsCounters() {
   const counterEls = document.querySelectorAll('.counter-val');
@@ -273,63 +340,7 @@ function initStatsCounters() {
 }
 
 // ==========================================================================
-// 7. CRM ARCHITECTURE FLOWCHART
-// ==========================================================================
-function initCrmArchitectureFlow() {
-  const nodes = document.querySelectorAll('.crm-flow-node');
-  const detailsTitle = document.getElementById('crm-flow-title');
-  const detailsDesc = document.getElementById('crm-flow-desc');
-  const detailsTech = document.getElementById('crm-flow-tech');
-  if (!nodes.length || !detailsTitle) return;
-
-  const nodeData = {
-    ui: {
-      title: 'Layer 1: Modular Client Interface (Next.js & React)',
-      desc: 'Server-side rendered dashboard interface optimized for high-volume CRM data queries, role-based conditional sidebars, real-time lead tables, customer triage queues, and sub-second load times.',
-      tech: ['React 18', 'Next.js 14 App Router', 'Tailwind CSS', 'Lucide React', 'TanStack Table']
-    },
-    auth: {
-      title: 'Layer 2: API Gateway & Role-Based Access (RBAC)',
-      desc: 'Centralized security layer managing JWT verification, granular role permissions (Admin, Manager, Staff), IP rate limiting middleware, CORS policies, and audited request verification.',
-      tech: ['JWT (JSON Web Tokens)', 'Express Middleware', 'Bcrypt.js', 'Helmet.js', 'Rate Limiter']
-    },
-    services: {
-      title: 'Layer 3: Node.js Microservices Core & Business Logic',
-      desc: 'High-throughput Node.js microservices handling customer lifecycle transitions, automated follow-up scheduling, automated invoice generation, and asynchronous webhook dispatching.',
-      tech: ['Node.js (LTS)', 'Express.js', 'Async/Await Queues', 'RESTful Controllers', 'Webhooks']
-    },
-    db: {
-      title: 'Layer 4: Multi-Tenant MongoDB & Relational MySQL Cluster',
-      desc: 'Hybrid data persistence layer: flexible document schemas for customer activity timelines and lead schemas in MongoDB, paired with strictly ACID-compliant MySQL tables for billing and transaction records.',
-      tech: ['MongoDB (Mongoose)', 'MySQL 8.0', 'Compound Indexing', 'Schema Aggregations', 'Data Migrations']
-    },
-    cloud: {
-      title: 'Layer 5: Edge Cloud Delivery & Automated CI/CD Pipelines',
-      desc: 'Automated GitHub continuous deployment pipeline deploying frontend assets to Vercel global edge CDN with instant cache invalidation, and backend microservices containerized with Docker on cloud hosts.',
-      tech: ['Vercel Edge CDN', 'Docker Container', 'Render / VPS', 'GitHub Actions', 'Zero-Downtime Deployments']
-    }
-  };
-
-  nodes.forEach(node => {
-    node.addEventListener('click', () => {
-      nodes.forEach(n => n.classList.remove('active'));
-      node.classList.add('active');
-      const key = node.getAttribute('data-node');
-      const d = nodeData[key];
-      if (d) {
-        detailsTitle.textContent = d.title;
-        detailsDesc.textContent = d.desc;
-        detailsTech.innerHTML = d.tech
-          .map(t => `<span class="px-2.5 py-1 text-[11px] font-mono font-semibold rounded-lg liquid-glass-pill text-cyan-400">${t}</span>`)
-          .join('');
-      }
-      if (window.SoundFX) window.SoundFX.playClick();
-    });
-  });
-}
-
-// ==========================================================================
-// 8. TECHNICAL ARSENAL (2 CARDS PER ROW ON MOBILE)
+// 9. TECHNICAL ARSENAL (2 CARDS PER ROW ON MOBILE)
 // ==========================================================================
 function initSkillsSection() {
   const grid = document.getElementById('skills-grid');
@@ -393,7 +404,7 @@ function initSkillsSection() {
 }
 
 // ==========================================================================
-// 9. FEATURED PROJECTS (2 CARDS PER ROW ON MOBILE)
+// 10. FEATURED PROJECTS (2 CARDS PER ROW ON MOBILE)
 // ==========================================================================
 function initProjectsSection() {
   const grid = document.getElementById('projects-grid');
@@ -419,14 +430,15 @@ function initProjectsSection() {
         .join(' ');
 
       const liveBtn = pr.liveUrl
-        ? `<a href="${pr.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary text-[10px] sm:text-xs px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl font-semibold flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
+        ? `<a href="${pr.liveUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary text-[10px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl font-semibold flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
             <i data-lucide="external-link" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> <span>Live</span>
           </a>`
         : '';
 
       const gitBtn = pr.githubUrl
-        ? `<a href="${pr.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary text-[10px] sm:text-xs px-2 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl font-medium flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
-            <i data-lucide="github" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i> <span>Code</span>
+        ? `<a href="${pr.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary text-[10px] sm:text-xs px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl font-medium flex items-center justify-center gap-1 font-display flex-1 sm:flex-initial">
+            <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+            <span>Code</span>
           </a>`
         : '';
 
@@ -434,13 +446,13 @@ function initProjectsSection() {
         <div class="relative z-10 flex flex-col h-full justify-between">
           <div>
             <!-- Browser Header Bar -->
-            <div class="browser-header px-2 sm:px-4 py-1.5 sm:py-2.5">
+            <div class="browser-header px-2 sm:px-4 py-1.5 sm:py-2">
               <div class="browser-dots gap-1">
                 <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-500"></span>
                 <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500"></span>
                 <span class="browser-dot w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-500"></span>
               </div>
-              <div class="browser-address-bar max-w-[85px] sm:max-w-[200px] text-[8px] sm:text-[10px] py-0.5 px-1 sm:px-2">
+              <div class="browser-address-bar max-w-[85px] sm:max-w-[190px] text-[8px] sm:text-[10px] py-0.5 px-1 sm:px-2">
                 <i data-lucide="lock" class="w-2 h-2 text-emerald-400 shrink-0"></i>
                 <span class="truncate">${pr.liveUrl ? pr.liveUrl.replace('https://', '') : 'github.com/SumitBehera720'}</span>
               </div>
@@ -448,15 +460,15 @@ function initProjectsSection() {
             </div>
 
             <!-- Content Area -->
-            <div class="p-3 sm:p-6">
-              <div class="flex items-center justify-between mb-1.5 sm:mb-2 gap-1">
+            <div class="p-3 sm:p-5">
+              <div class="flex items-center justify-between mb-1.5 gap-1">
                 <span class="text-[9px] sm:text-xs font-mono text-cyan-400 font-bold truncate max-w-[90px] sm:max-w-none">${pr.category}</span>
                 <span class="text-[9px] sm:text-[11px] font-mono text-emerald-400 liquid-glass-pill px-1.5 py-0.5 rounded font-bold shrink-0">● Active</span>
               </div>
-              <h3 class="text-xs sm:text-lg font-bold group-hover:text-cyan-400 transition-colors font-display mb-1 sm:mb-2 line-clamp-2">
+              <h3 class="text-xs sm:text-lg font-bold group-hover:text-cyan-400 transition-colors font-display mb-1 line-clamp-2">
                 ${pr.title}
               </h3>
-              <p class="text-[10px] sm:text-xs opacity-80 mb-2 sm:mb-5 leading-normal sm:leading-relaxed font-normal line-clamp-2 sm:line-clamp-none">
+              <p class="text-[10px] sm:text-xs opacity-80 mb-2 sm:mb-4 leading-normal sm:leading-relaxed font-normal line-clamp-2 sm:line-clamp-none">
                 ${pr.description}
               </p>
               <div class="flex flex-wrap gap-1 sm:gap-1.5 mb-2">
@@ -466,7 +478,7 @@ function initProjectsSection() {
           </div>
 
           <!-- Actions -->
-          <div class="p-2.5 sm:p-6 pt-2 sm:pt-3 border-t border-white/10 mt-auto flex items-center justify-between gap-1.5 sm:gap-3">
+          <div class="p-2 sm:p-5 pt-2 border-t border-white/10 mt-auto flex items-center justify-between gap-1.5 sm:gap-2.5">
             <div class="flex items-center gap-1.5 sm:gap-2 w-full">
               ${liveBtn}
               ${gitBtn}
@@ -504,7 +516,7 @@ function initProjectsSection() {
 }
 
 // ==========================================================================
-// 10. TIMELINE SECTION
+// 11. TIMELINE SECTION
 // ==========================================================================
 function initTimelineSection() {
   const container = document.getElementById('timeline-container');
@@ -523,7 +535,7 @@ function initTimelineSection() {
       <div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full bg-cyan-400 border-4 border-slate-900 shadow-md z-10 group-hover:scale-125 transition-transform"></div>
       <div class="absolute left-[6px] top-4 bottom-0 w-[2px] bg-slate-800"></div>
 
-      <div class="liquid-glass-card p-6">
+      <div class="liquid-glass-card p-5 sm:p-6">
         <div class="spotlight-surface"></div>
         <div class="relative z-10">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
@@ -557,7 +569,7 @@ function initTimelineSection() {
 }
 
 // ==========================================================================
-// 11. MODAL (LIQUID GLASS)
+// 12. MODAL (LIQUID GLASS)
 // ==========================================================================
 function initModal() {
   const modal = document.getElementById('project-modal');
@@ -629,7 +641,8 @@ function openProjectModal(projectId) {
         ${
           project.githubUrl
             ? `<a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 font-display">
-                <i data-lucide="github" class="w-4 h-4"></i> View Source Repository
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                <span>View Source Repository</span>
               </a>`
             : ''
         }
@@ -653,7 +666,7 @@ function closeModal() {
 }
 
 // ==========================================================================
-// 12. CONTACT FORM & COPY ACTIONS
+// 13. CONTACT FORM & COPY ACTIONS
 // ==========================================================================
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -719,23 +732,15 @@ function initCopyEmail() {
 }
 
 // ==========================================================================
-// 13. SCROLL SPY & DOCK NAVIGATION
+// 14. SCROLL SPY & DOCK NAVIGATION
 // ==========================================================================
 function initScrollSpyAndDock() {
   const nav = document.getElementById('navbar');
   const navLinks = document.querySelectorAll('.nav-link');
   const dockItems = document.querySelectorAll('.dock-item');
   const sections = document.querySelectorAll('section[id]');
-  const mobileToggle = document.getElementById('mobile-menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      nav.classList.add('nav-scrolled');
-    } else {
-      nav.classList.remove('nav-scrolled');
-    }
-
     let current = '';
     sections.forEach((section) => {
       const top = section.offsetTop - 150;
@@ -759,18 +764,6 @@ function initScrollSpyAndDock() {
       }
     });
   }, { passive: true });
-
-  if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    mobileMenu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
-    });
-  }
 }
 
 // Scroll Progress Indicator Bar
@@ -784,23 +777,4 @@ function initScrollProgress() {
     const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
     bar.style.width = `${scrolled}%`;
   }, { passive: true });
-}
-
-// Scroll Reveal Observer
-function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal-on-scroll');
-  if (!reveals.length) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-      }
-    });
-  }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -30px 0px'
-  });
-
-  reveals.forEach((el) => observer.observe(el));
 }

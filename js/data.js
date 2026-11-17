@@ -18,7 +18,7 @@ const portfolioData = {
     status: "Full-Stack Developer • Associate Developer @ Qubnix Technology",
     socials: {
       github: "https://github.com/SumitBehera720",
-      linkedin: "https://www.linkedin.com/in/sumit-behera-1869b6347/",
+      linkedin: "https://www.linkedin.com/in/sumitbehera/",
       instagram: "https://instagram.com/mr_sumit_07._",
       email: "mailto:beherasumit772@gmail.com"
     },

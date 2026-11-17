@@ -92,6 +92,6 @@ Then visit `http://localhost:3000` in your web browser.
 - **Education**: BCA Graduate from Utkal University (Graduated May 2026)
 - **Email**: [beherasumit772@gmail.com](mailto:beherasumit772@gmail.com)
 - **GitHub**: [@SumitBehera720](https://github.com/SumitBehera720)
-- **LinkedIn**: [linkedin.com/in/sumit-behera-1869b6347](https://www.linkedin.com/in/sumit-behera-1869b6347/)
+- **LinkedIn**: [linkedin.com/in/sumitbehera](https://www.linkedin.com/in/sumitbehera/)
 - **Instagram**: [@mr_sumit_07._](https://instagram.com/mr_sumit_07._)
 - **Location**: Bhubaneswar, Odisha, India
